@@ -4,6 +4,10 @@
   "private": true,
   "description": "Naga AI Assistant — Saranya: Production-ready Personal AI Voice Assistant in Tamil",
   "main": "server/dist/index.js",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
+  },
   "workspaces": [
     "server",
     "client"
