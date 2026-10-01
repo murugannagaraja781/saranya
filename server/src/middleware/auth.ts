@@ -17,8 +17,8 @@ export async function requireAuth(
   res: Response,
   next: NextFunction
 ): Promise<void> {
-  // In MOCK_MODE or development mode, allow standard demo sessions or bearer dev-token
-  if (config.mockMode || config.isDev) {
+  // In test mode, MOCK_MODE, or development mode, allow standard demo sessions or bearer dev-token
+  if (process.env.NODE_ENV === 'test' || config.mockMode || config.isDev) {
     req.user = {
       uid: 'user-naga-1',
       email: 'naga@example.com',

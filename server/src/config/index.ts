@@ -53,12 +53,12 @@ export interface AppConfig {
 }
 
 export const config: AppConfig = {
-  env: process.env.NODE_ENV || 'development',
-  isDev: process.env.NODE_ENV !== 'production',
-  mockMode: process.env.MOCK_MODE !== 'false', // Defaults to true if empty or 'true'
+  env: process.env.NODE_ENV || 'production',
+  isDev: process.env.NODE_ENV === 'development',
+  mockMode: process.env.MOCK_MODE === 'true', // Defaults to false in production
   port: parseInt(process.env.PORT || '5001', 10),
   host: process.env.HOST || '0.0.0.0',
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  corsOrigin: process.env.CORS_ORIGIN || 'https://ai.tenkasidreams.com',
 
   n8nWebhookSecret: process.env.N8N_WEBHOOK_SECRET || 'dev_n8n_secret_token_12345',
   whatsappWebhookVerifyToken: process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN || 'dev_whatsapp_verify_token_12345',
@@ -79,8 +79,8 @@ export const config: AppConfig = {
   firebaseClientEmail: process.env.FIREBASE_CLIENT_EMAIL,
   firebasePrivateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
 
-  n8nWebhookUrl: process.env.N8N_WEBHOOK_URL || 'http://localhost:5678/webhook/client-message',
-  n8nApiUrl: process.env.N8N_API_URL || 'http://localhost:5678/api/v1',
+  n8nWebhookUrl: process.env.N8N_WEBHOOK_URL || 'https://ai.tenkasidreams.com/webhook/client-message',
+  n8nApiUrl: process.env.N8N_API_URL || 'https://ai.tenkasidreams.com/api/v1',
 
   snapserveBaseUrl: process.env.SNAPSERVE_BASE_URL || 'https://api.snapserve.ai/v1',
   snapserveApiKey: process.env.SNAPSERVE_API_KEY,

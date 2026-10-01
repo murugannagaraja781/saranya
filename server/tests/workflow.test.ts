@@ -4,6 +4,10 @@ import { firestoreService } from '../src/services/db/firestoreService';
 import { config } from '../src/config/index';
 
 describe('Naga AI Assistant End-to-End Workflow Tests', () => {
+  beforeAll(() => {
+    (config as any).mockMode = true;
+  });
+
   beforeEach(() => {
     // Reset seed data
     (firestoreService as any).seedDefaultData();

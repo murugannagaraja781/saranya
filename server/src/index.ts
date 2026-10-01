@@ -6,6 +6,8 @@ import { config } from './config/index';
 import { logger } from './utils/logger';
 import { webhookRouter } from './routes/webhookRoutes';
 import { apiRouter } from './routes/apiRoutes';
+import path from 'path';
+import fs from 'fs';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
@@ -18,10 +20,14 @@ app.use(
   })
 );
 
-// 2. CORS setup
+// 2. CORS setup - Production domain strictly enforced in production
+const allowedOrigins = config.isDev
+  ? [config.corsOrigin, 'http://localhost:5173', 'http://127.0.0.1:5173']
+  : [config.corsOrigin];
+
 app.use(
   cors({
-    origin: [config.corsOrigin, 'http://localhost:5173', 'http://127.0.0.1:5173'],
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
@@ -63,7 +69,22 @@ app.use((req, res, next) => {
 app.use('/api/webhooks', webhookRouter);
 app.use('/api', apiRouter);
 
-// 6. Centralized Error Handler
+// 6. Serve static frontend bundle in production if available
+const clientDist = path.resolve(__dirname, '../../../client/dist');
+const altClientDist = path.resolve(__dirname, '../../client/dist');
+const distPath = fs.existsSync(clientDist) ? clientDist : (fs.existsSync(altClientDist) ? altClientDist : null);
+
+if (distPath) {
+  app.use(express.static(distPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
+
+// 7. Centralized Error Handler
 app.use(errorHandler);
 
 // 7. Start server if not imported by test runner
