@@ -1,0 +1,68 @@
+# ============================================================================
+# Naga AI Assistant (Saranya) — Hostinger Production Apache Configuration
+# Target: https://ai.tenkasidreams.com (Document Root: public_html/ai)
+# Compatible with Hostinger Shared Hosting (Apache & LiteSpeed)
+# ============================================================================
+
+# 1. Prevent Directory Indexing / Browsing
+Options -Indexes -MultiViews
+
+# 2. Set Default Character Encoding
+AddDefaultCharset UTF-8
+
+# 3. Security: Block Access to Sensitive Files and Directories
+<FilesMatch "^(\.env|\.env\.example|\.git|\.gitignore|composer\.(json|lock)|package(-lock)?\.json|.*\.sql|.*\.log|.*\.md)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Block direct access to internal source folders and configs
+RedirectMatch 403 ^/(\.git|server|client|shared|database|logs|php-app/database|php-app/logs|php-app/backend/config).*$
+
+# 4. HTTP Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# 5. URL Rewriting & Routing
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # If request is for an existing physical file or directory, serve it
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Route Root to php-app/public/index.html
+    RewriteRule ^$ php-app/public/index.html [L]
+
+    # Route static assets (css, js) to php-app/public/
+    RewriteRule ^css/(.*)$ php-app/public/css/$1 [L]
+    RewriteRule ^js/(.*)$ php-app/public/js/$1 [L]
+
+    # Route clean API and Webhook calls
+    RewriteRule ^backend/(.*)$ php-app/backend/$1 [L,QSA]
+    RewriteRule ^api/(.*)$ php-app/backend/api/$1 [L,QSA]
+    RewriteRule ^webhooks/(.*)$ php-app/backend/webhooks/$1 [L,QSA]
+
+    # Fallback to php-app/public/index.html for any frontend dashboard route
+    RewriteCond %{REQUEST_URI} !^/php-app/
+    RewriteCond %{REQUEST_URI} !^/backend/
+    RewriteCond %{REQUEST_URI} !^/api/
+    RewriteCond %{REQUEST_URI} !^/webhooks/
+    RewriteRule ^(.*)$ php-app/public/index.html [L]
+</IfModule>
+
+# 6. Gzip / Deflate Compression for Speed
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>

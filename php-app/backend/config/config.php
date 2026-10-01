@@ -7,8 +7,11 @@
 // Load .env file safely
 function loadEnvironmentVariables(): void {
     $searchPaths = [
+        __DIR__ . '/../../../.env',    // Repository root .env (e.g. public_html/ai/.env)
         __DIR__ . '/../../.env',       // php-app/.env
-        __DIR__ . '/../../../../.env', // root .env
+        __DIR__ . '/../.env',          // backend parent .env
+        dirname($_SERVER['DOCUMENT_ROOT'] ?? '') . '/.env',
+        ($_SERVER['DOCUMENT_ROOT'] ?? '') . '/.env',
     ];
 
     foreach ($searchPaths as $path) {
