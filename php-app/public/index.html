@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naga AI Assistant (Saranya) — Executive Tamil Voice Assistant</title>
+  <meta name="description" content="Production-ready Personal AI Voice Assistant in Tamil for Naga. Monitors Gmail and WhatsApp, generates Chennai Tamil voice briefings, and places automated phone calls.">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="22"></line>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h2>Saranya AI</h2>
+          <span class="brand-sub">Naga's Assistant</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" data-page="dashboard" id="nav-dashboard">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+            <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+            <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+            <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-page="messages" id="nav-messages">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Messages</span>
+          <span class="nav-badge" id="badge-messages">0</span>
+        </button>
+
+        <button class="nav-item" data-page="calls" id="nav-calls">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>Voice Calls</span>
+        </button>
+
+        <button class="nav-item" data-page="tasks" id="nav-tasks">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          <span>Action Tasks</span>
+          <span class="nav-badge alert" id="badge-tasks">0</span>
+        </button>
+
+        <button class="nav-item" data-page="clients" id="nav-clients">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Clients</span>
+        </button>
+
+        <button class="nav-item" data-page="settings" id="nav-settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <!-- System Status Footer in Sidebar -->
+      <div class="sidebar-status">
+        <div class="status-indicator">
+          <span class="status-pulse"></span>
+          <div>
+            <strong id="sidebar-assistant-name">Saranya (Arya)</strong>
+            <p>Chennai Tamil Voice AI</p>
+          </div>
+        </div>
+        <div class="system-tag-badge" id="sidebar-mode-badge">Mock Mode Active</div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top App Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle" id="btn-toggle-sidebar" aria-label="Toggle Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div>
+            <h1 class="page-title" id="page-title">Executive Dashboard</h1>
+            <p class="page-subtitle" id="page-subtitle">Real-time Tamil AI Voice Briefings & Operations</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <!-- Live Auto Refresh Toggle -->
+          <button class="btn-refresh" id="btn-refresh" title="Refresh Data">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span id="refresh-status">Live (5s)</span>
+          </button>
+
+          <!-- Simulate Message Button -->
+          <button class="btn-primary" id="btn-open-simulate">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Simulate Message</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW 1: DASHBOARD -->
+      <section class="page-section active" id="section-dashboard">
+        <!-- KPI Cards Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Messages Today</span>
+              <h3 class="stat-value" id="kpi-messages-today">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon icon-rose">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Important / High Priority</span>
+              <h3 class="stat-value text-rose" id="kpi-important">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon icon-emerald">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Voice Calls Placed</span>
+              <h3 class="stat-value" id="kpi-calls-made">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon icon-amber">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Pending Action Tasks</span>
+              <h3 class="stat-value text-amber" id="kpi-pending-tasks">0</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- System & Telephony Status Banner -->
+        <div class="card status-banner">
+          <div class="banner-left">
+            <div class="pulse-ring">
+              <span class="ring-core"></span>
+            </div>
+            <div>
+              <h4 id="banner-title">Saranya AI Monitoring Active</h4>
+              <p id="banner-desc">Connected to Gmail, WhatsApp Business Cloud & Telephony Outbound Engine.</p>
+            </div>
+          </div>
+          <div class="banner-badges">
+            <span class="badge badge-emerald">Gmail: Connected</span>
+            <span class="badge badge-emerald">WhatsApp: Connected</span>
+            <span class="badge badge-indigo" id="banner-voice-mode">Mock Voice Mode</span>
+          </div>
+        </div>
+
+        <!-- Recent Tamil Briefings & Outbound Calls -->
+        <div class="grid-2col">
+          <!-- Recent High Priority Briefings -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Latest Tamil Voice Briefings</h3>
+                <p class="card-sub">Client communications analyzed by Gemini AI with Chennai Tamil script</p>
+              </div>
+              <button class="btn-sm" onclick="navigateTo('messages')">View All</button>
+            </div>
+            <div class="briefings-list" id="dashboard-briefings-container">
+              <div class="loading-state">Loading briefings...</div>
+            </div>
+          </div>
+
+          <!-- Outbound Call Activity -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Recent Phone Calls to Naga</h3>
+                <p class="card-sub">Tamil voice briefings dispatched and Naga's recorded instructions</p>
+              </div>
+              <button class="btn-sm" onclick="navigateTo('calls')">View All</button>
+            </div>
+            <div class="calls-list" id="dashboard-calls-container">
+              <div class="loading-state">Loading calls...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: MESSAGES INBOX -->
+      <section class="page-section" id="section-messages">
+        <div class="card">
+          <div class="filter-bar">
+            <div class="search-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="messages-search" placeholder="Search client, company, or message text...">
+            </div>
+
+            <div class="filter-controls">
+              <select id="filter-channel" class="select-input">
+                <option value="">All Channels</option>
+                <option value="email">Email</option>
+                <option value="whatsapp">WhatsApp</option>
+              </select>
+
+              <select id="filter-priority" class="select-input">
+                <option value="">All Priorities</option>
+                <option value="high">High Priority</option>
+                <option value="normal">Normal</option>
+                <option value="low">Low Priority</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Channel</th>
+                  <th>Subject & Original Message</th>
+                  <th>Gemini Tamil Briefing</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="messages-table-body">
+                <tr><td colspan="7" class="loading-state">Loading messages...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 3: VOICE CALLS -->
+      <section class="page-section" id="section-calls">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Voice Calls & Telephony History</h3>
+              <p class="card-sub">Phone calls placed by Saranya with full dialogue script & owner instructions</p>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Channel</th>
+                  <th>Tamil Briefing Delivered</th>
+                  <th>Naga's Spoken Instruction</th>
+                  <th>Duration</th>
+                  <th>Status</th>
+                  <th>Time</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="calls-table-body">
+                <tr><td colspan="8" class="loading-state">Loading voice calls...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 4: ACTION TASKS -->
+      <section class="page-section" id="section-tasks">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Action Tasks & Commitments</h3>
+              <p class="card-sub">Tasks automatically created from Naga's voice instructions during phone calls</p>
+            </div>
+            <div class="filter-controls">
+              <select id="filter-task-status" class="select-input">
+                <option value="">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="in_progress">In Progress</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="tasks-container" id="tasks-list-container">
+            <div class="loading-state">Loading action tasks...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 5: CLIENTS DIRECTORY -->
+      <section class="page-section" id="section-clients">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Client Directory</h3>
+              <p class="card-sub">Active client profiles, interaction histories, and notes</p>
+            </div>
+          </div>
+
+          <div class="clients-grid" id="clients-grid-container">
+            <div class="loading-state">Loading client directory...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 6: SETTINGS -->
+      <section class="page-section" id="section-settings">
+        <div class="card settings-card">
+          <div class="card-header">
+            <div>
+              <h3>Assistant & Telephony Configuration</h3>
+              <p class="card-sub">Manage Saranya's persona, recipient numbers, quiet hours, and API keys</p>
+            </div>
+          </div>
+
+          <form id="settings-form" class="settings-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-assistant-name">AI Assistant Persona Name</label>
+                <input type="text" id="set-assistant-name" value="Arya" required>
+              </div>
+
+              <div class="form-group">
+                <label for="set-owner-name">Owner Name</label>
+                <input type="text" id="set-owner-name" value="Naga" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-owner-phone">Owner Phone Number (E.164)</label>
+                <input type="text" id="set-owner-phone" value="+916382379565" required>
+                <span class="input-hint">Outbound calls from Saranya will be dialed to this number.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="set-owner-email">Owner Email</label>
+                <input type="email" id="set-owner-email" value="naga@business.com">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-quiet-start">Quiet Hours Start</label>
+                <input type="time" id="set-quiet-start" value="22:00">
+              </div>
+
+              <div class="form-group">
+                <label for="set-quiet-end">Quiet Hours End</label>
+                <input type="time" id="set-quiet-end" value="07:00">
+              </div>
+            </div>
+
+            <div class="checkbox-row">
+              <label class="switch-container">
+                <input type="checkbox" id="set-allow-high-quiet" checked>
+                <span class="switch-slider"></span>
+              </label>
+              <span>Allow High Priority Calls during Quiet Hours (Payment / Urgent Blockers)</span>
+            </div>
+
+            <div class="checkbox-row">
+              <label class="switch-container">
+                <input type="checkbox" id="set-mock-mode" checked>
+                <span class="switch-slider"></span>
+              </label>
+              <span>Mock Mode Active (Zero API cost for local dev & testing)</span>
+            </div>
+
+            <div class="form-group">
+              <label for="set-gemini-key">Google Gemini API Key</label>
+              <input type="password" id="set-gemini-key" placeholder="AIzaSy...">
+              <span class="input-hint">Leave blank to use pre-filter & deterministic mock briefings.</span>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" id="btn-save-settings">Save Settings</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- SIMULATE INBOUND MESSAGE MODAL -->
+  <div class="modal-backdrop" id="modal-simulate">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h3>Simulate Inbound Client Message</h3>
+          <p class="modal-sub">Test how Gemini AI and Saranya analyze messages and trigger phone calls</p>
+        </div>
+        <button class="modal-close" id="btn-close-simulate">&times;</button>
+      </div>
+
+      <div class="preset-selector">
+        <label>Quick Test Presets:</label>
+        <div class="preset-chips">
+          <button class="chip active" data-preset="installment">💰 Quotation & Installments (High)</button>
+          <button class="chip" data-preset="delivery">🚚 Delivery Confirmation (High)</button>
+          <button class="chip" data-preset="complaint">🚨 Urgent Blocker (High)</button>
+          <button class="chip" data-preset="otp">🔑 OTP Code (Pre-Filter Skip)</button>
+          <button class="chip" data-preset="thanks">👍 Simple "Thanks" (Pre-Filter Skip)</button>
+        </div>
+      </div>
+
+      <form id="simulate-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Channel</label>
+            <select id="sim-channel" class="select-input">
+              <option value="email">Email</option>
+              <option value="whatsapp">WhatsApp</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Client Name</label>
+            <input type="text" id="sim-client-name" value="Ramesh Kumar" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Company</label>
+            <input type="text" id="sim-company" value="ABC Traders">
+          </div>
+          <div class="form-group">
+            <label>Contact (Phone / Email)</label>
+            <input type="text" id="sim-contact" value="+919840123456" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Subject (if Email)</label>
+          <input type="text" id="sim-subject" value="Quotation Approved - Payment Terms Discussion">
+        </div>
+
+        <div class="form-group">
+          <label>Message Content</label>
+          <textarea id="sim-message" rows="4" required>Dear Naga, We have reviewed the quotation you sent yesterday. We are happy with the pricing and approve it. However, we request to make the payment in 2 installments (50% advance, 50% on completion). Please confirm by tomorrow.</textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="btn-cancel-simulate">Cancel</button>
+          <button type="submit" class="btn-primary" id="btn-submit-simulate">
+            <span>Process & Dispatch Call</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CALL DETAIL & AUDIO DIALOGUE MODAL -->
+  <div class="modal-backdrop" id="modal-call-detail">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div>
+          <h3 id="call-modal-title">Tamil Voice Briefing Call</h3>
+          <p class="modal-sub" id="call-modal-sub">Phone Dialogue Script & Instruction</p>
+        </div>
+        <button class="modal-close" id="btn-close-call-modal">&times;</button>
+      </div>
+
+      <div class="call-modal-body">
+        <!-- Audio Simulation Player Widget -->
+        <div class="audio-player-widget">
+          <div class="audio-left">
+            <button class="audio-play-btn" id="audio-play-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+            <div>
+              <strong>Saranya Chennai Tamil Call Recording</strong>
+              <span class="audio-duration" id="audio-timer">00:42 / 00:42</span>
+            </div>
+          </div>
+          <div class="audio-wave">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+          </div>
+        </div>
+
+        <!-- Tamil Dialogue Script -->
+        <div class="transcript-box">
+          <h4>Full Chennai Tamil Conversation Script:</h4>
+          <pre id="call-modal-transcript" class="tamil-text">Transcript loading...</pre>
+        </div>
+
+        <!-- Naga's Instruction Captured -->
+        <div class="instruction-box">
+          <div class="instruction-header">
+            <span class="badge badge-indigo">Naga's Recorded Spoken Instruction</span>
+          </div>
+          <p id="call-modal-instruction" class="tamil-text">-</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Toast Alert -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

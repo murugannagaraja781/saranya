@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Environment files and credentials (CRITICAL: Never commit these!)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+credentials*.json
+firebase*.json
+service-account*.json
+
+# Allow .env.example
+!.env.example
+
+# Build and caches
+dist/
+build/
+.cache/
+.kilo/
+coverage/
+
+# Logs
+*.log
+logs/*.log
+!logs/.gitkeep
+!php-app/logs/.gitkeep
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
