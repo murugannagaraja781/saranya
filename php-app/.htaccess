@@ -46,6 +46,10 @@ RedirectMatch 403 ^/backend/config/.*$
     # Route Root to public/index.html
     RewriteRule ^$ public/index.html [L]
 
+    # Route Super Admin Dashboard
+    RewriteRule ^admin/?$ public/admin.html [L]
+    RewriteRule ^admin\.html$ public/admin.html [L]
+
     # Route static assets (css, js) to public/ folder
     RewriteRule ^css/(.*)$ public/css/$1 [L]
     RewriteRule ^js/(.*)$ public/js/$1 [L]

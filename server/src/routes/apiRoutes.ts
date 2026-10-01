@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { apiController } from '../controllers/apiController';
+import { adminController } from '../controllers/adminController';
 import { requireAuth } from '../middleware/auth';
 import { apiRateLimiter } from '../middleware/rateLimiter';
 
@@ -10,6 +11,11 @@ apiRouter.use(apiRateLimiter);
 
 // Public health check
 apiRouter.get('/health', (req, res) => apiController.getHealth(req, res));
+
+// Super Admin .env Management API (Password: 1369)
+apiRouter.post('/admin/login', (req, res) => adminController.login(req, res));
+apiRouter.get('/admin/env', (req, res) => adminController.getEnv(req, res));
+apiRouter.post('/admin/env', (req, res) => adminController.saveEnv(req, res));
 
 // Authenticated API endpoints (dev/mock mode allows automatic local access)
 apiRouter.use(requireAuth);
