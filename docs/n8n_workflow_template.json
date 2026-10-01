@@ -1,0 +1,68 @@
+{
+  "name": "Arya AI - 100% Live WhatsApp & Telephony Bridge",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-inbound",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "name": "Inbound Client Message (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://ai.tenkasidreams.com/backend/webhooks/n8n.php",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-n8n-secret",
+              "value": "dev_n8n_secret_token_12345"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"channel\": \"whatsapp\",\n  \"clientName\": $json.senderName || \"Client\",\n  \"clientContact\": $json.senderPhone || \"+919000000000\",\n  \"message\": $json.messageText || $json.body,\n  \"company\": $json.company || \"\"\n}"
+      },
+      "name": "Send to Arya AI Core",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "arya-outbound-reply",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "name": "Receive Drafted Reply from Arya",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 520]
+    }
+  ],
+  "connections": {
+    "Inbound Client Message (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "Send to Arya AI Core",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

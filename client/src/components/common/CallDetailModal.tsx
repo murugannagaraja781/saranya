@@ -100,7 +100,7 @@ export const CallDetailModal: React.FC<CallDetailModalProps> = ({ call, open, on
         {/* Spoken Tamil Summary */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#334155', mb: 1 }}>
-            Saranya Spoken Tamil Summary (Briefing):
+            Arya Spoken Tamil Summary (Briefing):
           </Typography>
           <Box
             sx={{
@@ -164,7 +164,7 @@ export const CallDetailModal: React.FC<CallDetailModalProps> = ({ call, open, on
         >
           {call.transcript ? (
             call.transcript.split('\n\n').map((line, idx) => {
-              const isSaranya = line.startsWith('Saranya:');
+              const isArya = line.startsWith('Saranya:') || line.startsWith('Arya:');
               return (
                 <Box
                   key={idx}
@@ -180,7 +180,7 @@ export const CallDetailModal: React.FC<CallDetailModalProps> = ({ call, open, on
                       width: 28,
                       height: 28,
                       borderRadius: '50%',
-                      backgroundColor: isSaranya ? '#2563EB' : '#1E293B',
+                      backgroundColor: isArya ? '#2563EB' : '#1E293B',
                       color: '#FFFFFF',
                       display: 'flex',
                       alignItems: 'center',
@@ -189,21 +189,21 @@ export const CallDetailModal: React.FC<CallDetailModalProps> = ({ call, open, on
                       mt: 0.2
                     }}
                   >
-                    {isSaranya ? <Bot size={16} /> : <User size={16} />}
+                    {isArya ? <Bot size={16} /> : <User size={16} />}
                   </Box>
                   <Box>
-                    <Typography variant="caption" sx={{ fontWeight: 700, color: isSaranya ? '#2563EB' : '#0F172A' }}>
-                      {isSaranya ? 'Saranya (AI)' : 'Naga (Owner)'}
+                    <Typography variant="caption" sx={{ fontWeight: 700, color: isArya ? '#2563EB' : '#0F172A' }}>
+                      {isArya ? 'Arya (AI)' : 'Naga (Owner)'}
                     </Typography>
                     <Typography
                       variant="body2"
                       sx={{
                         color: '#334155',
                         mt: 0.25,
-                        fontFamily: isSaranya ? 'Noto Sans Tamil, sans-serif' : 'inherit'
+                        fontFamily: isArya ? 'Noto Sans Tamil, sans-serif' : 'inherit'
                       }}
                     >
-                      {line.replace(/^(Saranya:|Naga:)\s*/, '')}
+                      {line.replace(/^(Saranya:|Arya:|Naga:)\s*/, '')}
                     </Typography>
                   </Box>
                 </Box>

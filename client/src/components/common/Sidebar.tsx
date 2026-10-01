@@ -73,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </Box>
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 800, fontFamily: 'Outfit, sans-serif', color: '#0F172A', lineHeight: 1.2 }}>
-              Saranya
+              Arya
             </Typography>
             <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 500, fontSize: '0.72rem' }}>
               Personal Tamil AI Assistant

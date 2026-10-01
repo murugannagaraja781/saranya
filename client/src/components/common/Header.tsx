@@ -113,7 +113,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
               />
             }
-            label="Saranya Online"
+            label="Arya Online"
             size="small"
             sx={{
               display: { xs: 'none', sm: 'inline-flex' },

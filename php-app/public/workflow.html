@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arya AI — How It Works (Visual Workflow Guide)</title>
+  <meta name="description" content="Step-by-step visual architecture and workflow of Naga AI Assistant (Arya)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --indigo: #6366f1;
+      --indigo-glow: rgba(99, 102, 241, 0.25);
+      --whatsapp: #25d366;
+      --whatsapp-glow: rgba(37, 211, 102, 0.25);
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --cyan: #06b6d4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Tamil', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Ambient Background Glow */
+    .ambient-glow {
+      position: fixed;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(37, 211, 102, 0.06) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #a5b4fc;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .badge-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 10px #22c55e;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    h1 {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 720px;
+      margin: 0 auto 28px;
+    }
+
+    .nav-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+      border: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    }
+
+    .btn-outline {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--card-border);
+      color: #e2e8f0;
+    }
+    .btn-outline:hover {
+      background: rgba(51, 65, 85, 0.8);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Interactive Simulation Selector */
+    .sim-bar {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .sim-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sim-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sim-chip {
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid var(--card-border);
+      color: #cbd5e1;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sim-chip:hover {
+      border-color: #6366f1;
+      color: #fff;
+    }
+
+    .sim-chip.active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #6366f1;
+      color: #a5b4fc;
+      font-weight: 600;
+    }
+
+    /* Workflow Flow Grid */
+    .flow-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+    }
+
+    /* Step Card */
+    .flow-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 24px 28px;
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 24px;
+      align-items: center;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .flow-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .flow-card.highlight {
+      border-color: var(--whatsapp);
+      box-shadow: 0 0 24px rgba(37, 211, 102, 0.2);
+    }
+
+    /* Step Number & Icon */
+    .icon-wrapper {
+      width: 68px;
+      height: 68px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .icon-wrapper svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .step-number {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #0f172a;
+      border: 2px solid #6366f1;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Theme colors for step icons */
+    .icon-inbound { background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; }
+    .icon-n8n     { background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); color: #fbbf24; }
+    .icon-filter  { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; }
+    .icon-gemini  { background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.35); color: #818cf8; }
+    .icon-call    { background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.35); color: #fb7185; }
+    .icon-voice   { background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.35); color: #c084fc; }
+    .icon-polish  { background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.35); color: #38bdf8; }
+    .icon-dispatch{ background: rgba(37, 211, 102, 0.15); border: 1px solid rgba(37, 211, 102, 0.35); color: #25d366; }
+
+    /* Content Details */
+    .flow-info h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .flow-info .badge-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #94a3b8;
+    }
+
+    .flow-info p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    /* Live Preview Box inside card */
+    .preview-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #e2e8f0;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .preview-box.tamil-voice {
+      border-left: 3px solid #f43f5e;
+      color: #fecdd3;
+      font-family: 'Noto Sans Tamil', sans-serif;
+    }
+
+    .preview-box.whatsapp-reply {
+      border-left: 3px solid #25d366;
+      background: rgba(37, 211, 102, 0.05);
+      color: #dcfce7;
+    }
+
+    .preview-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      white-space: nowrap;
+    }
+
+    /* Right Status Pill */
+    .flow-status {
+      text-align: right;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .status-active { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .status-gemini { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .status-voice  { background: rgba(244, 63, 94, 0.15); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.3); }
+
+    /* Downward Connector Arrow */
+    .connector {
+      display: flex;
+      justify-content: center;
+      margin: -10px 0;
+      color: rgba(99, 102, 241, 0.4);
+    }
+
+    /* Technical Endpoints Summary */
+    .tech-summary {
+      margin-top: 60px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+
+    .tech-summary h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .endpoint-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .endpoint-table th, .endpoint-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .endpoint-table th {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .endpoint-table td code {
+      font-family: 'JetBrains Mono', monospace;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .flow-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .flow-status {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <div class="container">
+    
+    <!-- Top Header -->
+    <header class="header">
+      <div class="badge-pill">
+        <span class="badge-pulse"></span>
+        <span>Closed-Loop Autonomous AI Architecture</span>
+      </div>
+      <h1>Naga AI Assistant (Arya) — Workflow Guide</h1>
+      <p class="subtitle">
+        Gmail & WhatsApp-ல் மெசேஜ் வருவதில் இருந்து, Google Gemini AI Tamil Voice Briefing, Naga-வின் குரல் பதில், மற்றும் Client-க்கு WhatsApp Auto Reply வரை முழுமையான விளக்கம்.
+      </p>
+      
+      <div class="nav-actions">
+        <a href="index.php" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Open Executive Dashboard
+        </a>
+        <a href="admin.html" class="btn btn-outline">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          Super Admin Settings
+        </a>
+      </div>
+    </header>
+
+    <!-- Interactive Scenario Switcher -->
+    <div class="sim-bar">
+      <div class="sim-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+        <span>உதாரண காட்சியை தேர்ந்தெடுக்கவும் (Live Scenario Trace):</span>
+      </div>
+      <div class="sim-chips" style="display:flex; flex-wrap:wrap; gap:8px;">
+        <button class="sim-chip active" onclick="switchScenario('villa')">1. 🏗️ Turnkey Villa ₹45L (High)</button>
+        <button class="sim-chip" onclick="switchScenario('payment')">2. 💳 NEFT Payment ₹1.75L (High)</button>
+        <button class="sim-chip" onclick="switchScenario('emergency')">3. 🚨 Site Emergency (Critical)</button>
+        <button class="sim-chip" onclick="switchScenario('wholesale')">4. 🤝 B2B Bulk Deal 500U (High)</button>
+        <button class="sim-chip" onclick="switchScenario('delivery')">5. 🚚 Delivery Schedule (High)</button>
+        <button class="sim-chip" onclick="switchScenario('otp')">6. 🛡️ Bank OTP / Spam (Shield)</button>
+      </div>
+    </div>
+
+    <!-- 8-STEP WORKFLOW FLOW -->
+    <div class="flow-grid">
+
+      <!-- STEP 1: Inbound Messages -->
+      <div class="flow-card" id="card-step-1">
+        <div class="icon-wrapper icon-inbound">
+          <span class="step-number">1</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </div>
+        <div class="flow-info">
+          <h3>Client Messaging <span class="badge-tag">Gmail & WhatsApp</span></h3>
+          <p>Clients send emails (Gmail) or WhatsApp messages regarding quotation approvals, payment terms, delivery inquiries, or urgent complaints.</p>
+          <div class="preview-box">
+            <span class="preview-tag">Incoming</span>
+            <span id="preview-inbound">"Dear Naga, We reviewed your quotation. Approve it with 2 installments (50% advance / 50% on completion). Please confirm."</span>
+          </div>
+        </div>
+        <div class="flow-status">
+          <span class="status-badge status-active">Client Input</span>
+        </div>
+      </div>
+
+      <div class="connector">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+
+      <!-- STEP 2: n8n Automation -->
+      <div class="flow-card" id="card-step-2">
+        <div class="icon-wrapper icon-n8n">
+          <span class="step-number">2</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        </div>
+        <div class="flow-info">
+          <h3>n8n Automation Ingestion <span class="badge-tag">Webhook Dispatch</span></h3>
+          <p>Your n8n workflow triggers instantly on new Gmail/WhatsApp messages, standardizes the JSON payload, and securely POSTs to Arya's webhook with header authentication.</p>
+          <div class="preview-box">
+            <span class="preview-tag">HTTP POST</span>
+            <code>https://ai.tenkasidreams.com/backend/webhooks/n8n.php [x-n8n-secret]</code>
+          </div>
+        </div>
+        <div class="flow-status">
+          <span class="status-badge status-active">n8n Pipeline</span>
+        </div>
+      </div>
+
+      <div class="connector">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+
+      <!-- STEP 3: Pre-Filter Shield -->
+      <div class="flow-card" id="card-step-3">
+        <div class="icon-wrapper icon-filter">
+          <span class="step-number">3</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <div class="flow-info">
+          <h3>Deterministic Pre-Filter Shield <span class="badge-tag">Cost & Spam Optimization</span></h3>
+          <p>Lightweight ultra-fast regex filter evaluates the message. OTPs, bank marketing, promotional spam, and trivial "thank you" messages are handled in 1ms without invoking Gemini API.</p>
+          <div class="preview-box">
+            <span class="preview-tag">Filter Result</span>
+            <span id="preview-filter">✓ Pass: Actionable Business Content detected. Forwarding to Gemini AI.</span>
+          </div>
+        </div>
+        <div class="flow-status">
+          <span class="status-badge status-active">Shield Active</span>
+        </div>
+      </div>
+
+      <div class="connector">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+
+      <!-- STEP 4: Google Gemini AI -->
+      <div class="flow-card" id="card-step-4">
+        <div class="icon-wrapper icon-gemini">
+          <span class="step-number">4</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        </div>
+        <div class="flow-info">
+          <h3>Google Gemini AI 1.5 Flash <span class="badge-tag">Chennai Tamil Voice Briefing</span></h3>
+          <p>Gemini analyzes urgency, extracts the client's intent, decides if a phone call is mandatory, and creates a natural conversational spoken Tamil briefing with English business terms.</p>
+          <div class="preview-box tamil-voice">
+            <span class="preview-tag">Tamil Briefing</span>
+            <span id="preview-gemini">"Client quotation approve பண்ணிட்டாங்க. ஆனா 2 installment-ல payment பண்ணலாமா-னு கேக்குறாங்க. நீங்க confirmation தரணும்."</span>
+          </div>
+        </div>
+        <div class="flow-status">
+          <span class="status-badge status-gemini">Gemini 1.5 Flash</span>
+        </div>
+      </div>
+
+      <div class="connector">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+
+      <!-- STEP 5: Phone Call to Naga -->
+      <div class="flow-card" id="card-step-5">
+        <div class="icon-wrapper icon-call">
+          <span class="step-number">5</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        </div>
+        <div class="flow-info">
+          <h3>Arya Voice Call to Naga <span class="badge-tag">+916382379565</span></h3>
+          <p>Arya calls Naga's phone via Telephony. Arya speaks in natural Chennai Tamil, briefs Naga in 30 seconds, and asks for instructions on what reply to send.</p>
+          <div class="preview-box tamil-voice">
+            <span class="preview-tag">Arya Spoken</span>
+            <span id="preview-arya">Arya: "வணக்கம் Naga! உங்க client கிட்ட இருந்து முக்கியமான மெசேஜ் வந்திருக்கு... இதுக்கு நான் என்ன பதில் சொல்லணும் Naga?"</span>
+          </div>
+        </div>
+        <div class="flow-status">
+          <span class="status-badge status-voice">Voice Telephony</span>
+        </div>
+      </div>
+
+      <div class="connector">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+
+      <!-- STEP 6: Naga Voice Instruction -->
+      <div class="flow-card" id="card-step-6">
+        <div class="icon-wrapper icon-voice">
+          <span class="step-number">6</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+        </div>
+        <div class="flow-info">
+          <h3>Naga's Spoken Instruction Captured <span class="badge-tag">Voice-to-Text Recording</span></h3>
+          <p>Naga answers naturally on the phone. The voice recognition engine transcribes Naga's words and triggers the post-call webhook.</p>
+          <div class="preview-box">
+            <span class="preview-tag">Naga Spoken</span>
+            <span id="preview-naga" style="color: #c084fc; font-weight: 600;">Naga: "சரி, 2 installment ஓகே. ஆனா முதல் installment நாளைக்குள்ள கட்ட சொல்லு."</span>
+          </div>
+        </div>
+        <div class="flow-status">
+          <span class="status-badge status-voice">Owner Spoken</span>
+        </div>
+      </div>
+
+      <div class="connector">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+
+      <!-- STEP 7: Gemini Professional Reply Polish -->
+      <div class="flow-card" id="card-step-7">
+        <div class="icon-wrapper icon-polish">
+          <span class="step-number">7</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+        </div>
+        <div class="flow-info">
+          <h3>Gemini AI Professional Polish <span class="badge-tag">Auto Business Drafting</span></h3>
+          <p>Gemini AI receives Naga's rough verbal instruction and translates it into a polished, polite, and professional business reply tailored for WhatsApp.</p>
+          <div class="preview-box whatsapp-reply">
+            <span class="preview-tag">Drafted Text</span>
+            <span id="preview-draft">"Dear Ramesh, Thank you for approving the quotation. We are happy to proceed with the 2-installment payment structure (50% advance / 50% upon completion). Kindly process the initial advance payment by tomorrow so we can initiate work immediately. Warm regards, Naga"</span>
+          </div>
+        </div>
+        <div class="flow-status">
+          <span class="status-badge status-gemini">AI Crafted</span>
+        </div>
+      </div>
+
+      <div class="connector">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+
+      <!-- STEP 8: Auto WhatsApp Dispatch -->
+      <div class="flow-card highlight" id="card-step-8">
+        <div class="icon-wrapper icon-dispatch">
+          <span class="step-number">8</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </div>
+        <div class="flow-info">
+          <h3>Auto WhatsApp Dispatch & Task Record <span class="badge-tag">Closed Loop Complete</span></h3>
+          <p>The message is automatically dispatched back to the client's WhatsApp via WhatsApp Cloud API or n8n outbound webhook. A completed Action Task with full audit trail is saved in the dashboard!</p>
+          <div class="preview-box whatsapp-reply">
+            <span class="preview-tag">✓ Sent</span>
+            <span id="preview-dispatch">✓ Sent to Client (+919840123456) on WhatsApp • Task Auto-Completed in Dashboard.</span>
+          </div>
+        </div>
+        <div class="flow-status">
+          <span class="status-badge status-active">✓ Dispatched</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TECHNICAL ENDPOINTS REFERENCE -->
+    <div class="tech-summary">
+      <h2>🔌 System Webhook Endpoints & API Reference</h2>
+      <table class="endpoint-table">
+        <thead>
+          <tr>
+            <th>Service / Component</th>
+            <th>Method & Endpoint URL</th>
+            <th>Authentication / Headers</th>
+            <th>Role in Workflow</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>n8n Inbound Webhook</strong></td>
+            <td><code>POST /backend/webhooks/n8n.php</code></td>
+            <td><code>x-n8n-secret: dev_n8n_secret_token_12345</code></td>
+            <td>Receives new client emails/messages from n8n</td>
+          </tr>
+          <tr>
+            <td><strong>WhatsApp Cloud API</strong></td>
+            <td><code>GET/POST /backend/webhooks/whatsapp.php</code></td>
+            <td><code>hub.verify_token: dev_whatsapp_verify_token_12345</code></td>
+            <td>Direct Meta WhatsApp Business webhook integration</td>
+          </tr>
+          <tr>
+            <td><strong>Post-Call Webhook</strong></td>
+            <td><code>POST /backend/webhooks/post-call.php</code></td>
+            <td>Internal / Telephony bearer</td>
+            <td>Captures Naga's verbal reply & triggers auto-dispatch</td>
+          </tr>
+          <tr>
+            <td><strong>Executive Simulation API</strong></td>
+            <td><code>POST /backend/api/simulate.php</code></td>
+            <td>Browser Session / REST</td>
+            <td>Simulates incoming messages directly from Dashboard</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    const SCENARIOS = {
+      villa: {
+        inbound: '"வணக்கம் Naga, ₹45 Lakhs turnkey villa quotation review pannitom. Pricing ok, but 3 months-la completion mudika mudiyuma? Site visit naalaiku morning 10 AM vechikலாமா? Please call & confirm."',
+        filter: '✓ Pass: High-Value Turnkey Quotation & Site Visit inquiry detected. Priority set to HIGH.',
+        gemini: '"Karthik Raja 45 லட்சம் வில்லா ப்ராஜெக்ட் கொட்டேஷன் ஓகே பண்ணிட்டாரு. ஆனா 3 மாசத்துல வேலை முடியுமான்னு கேக்குறாரு. நாளைக்கு காலைல 10 மணிக்கு சைட் விசிட் வர சொல்றாரு."',
+        arya: 'Arya: "வணக்கம் Naga! Karthik Raja 45 லட்சம் வில்லா ப்ராஜெக்ட் கொட்டேஷன் ஓகே பண்ணிட்டாரு. ஆனா 3 மாசத்துல வேலை முடியுமான்னு கேக்குறாரு. நாளைக்கு காலைல 10 மணிக்கு சைட் விசிட் வர சொல்றாரு."',
+        naga: 'Naga: "3 months mudiyum-nu சொல்லு, நாளைக்கு 10 AM site visit confirm பண்ணு."',
+        draft: '"Dear Karthik Raja, Thank you for approving our ₹45L turnkey quotation. We confirm the project can be completed in 3 months with dedicated crews. Our team will meet you at the site tomorrow at 10:00 AM. Warm regards, Naga"',
+        dispatch: '✓ Auto-dispatched to Karthik Raja (+919840123456) on WhatsApp • Site Visit Task Created.'
+      },
+      payment: {
+        inbound: '"Hi Naga, Pending invoice #INV-89 amount ₹1,75,000 NEFT transfer initiate pannitom (UTR: UTR98237192). Bank check pannitu receipt immediately send pannunga."',
+        filter: '✓ Pass: Financial Settlement & High-Value Transaction detected. Priority set to HIGH.',
+        gemini: '"Southern Tech Anitha Raman 1 லட்சத்து 75 ஆயிரம் ரூபா இன்வாய்ஸ் பேமெண்ட் NEFT பண்ணிட்டாங்க. பேங்க் செக் பண்ணிட்டு உடனே ரெசீப்ட் கேக்குறாங்க."',
+        arya: 'Arya: "Naga, Anitha Raman ₹1,75,000 NEFT transfer pannitanga. Bank verify pannitu payment receipt kekuranga."',
+        naga: 'Naga: "Bank-la credit check பண்ணிட்டு payment receipt அனுப்பிடு."',
+        draft: '"Dear Anitha Raman, Thank you for confirming the NEFT transfer (UTR: UTR98237192). We have verified the credit of ₹1,75,000 in our account and attached the official payment receipt. Warm regards, Naga"',
+        dispatch: '✓ Auto-dispatched to Anitha Raman (+919840999888) on WhatsApp • Invoice Marked Paid in CRM.'
+      },
+      emergency: {
+        inbound: '"URGENT NAGA: Tenkasi site-la generator failure! Concrete mixer lorry wait pannuthu, concrete pour ninnu pochu. Immediate-aa backup technician send pannunga!"',
+        filter: '🚨 CRITICAL BLOCKER: Equipment breakdown & on-site stoppage detected. Immediate Override Call.',
+        gemini: '"அர்ஜென்ட் Naga! தென்காசி சைட்ல ஜெனரேட்டர் நின்னதால கான்கிரீட் ஊத்துற வேலை நின்னு போச்சு. உடனடியா பேக்கப் டெக்னீசியனை அனுப்ப சொல்றாங்க."',
+        arya: 'Arya: "URGENT Naga! Tenkasi site-la generator fail aagi concrete pour stop aayiduchu. Immediate technician venum."',
+        naga: 'Naga: "Backup technician Selvam-a உடனே site-ku வர சொல்லு. Lorry driver-கிட்ட 15 mins wait பண்ண சொல்லு."',
+        draft: '"Dear Vignesh, Senior technician Selvam has been dispatched and will reach within 15 minutes. Please have the lorry driver hold for 15 minutes. Work will resume immediately. Warm regards, Naga"',
+        dispatch: '✓ Urgent WhatsApp dispatched to Site Engineer (+919840777666) • Emergency Incident Logged.'
+      },
+      wholesale: {
+        inbound: '"அண்ணா வணக்கம், 500 units bulk order எடுக்க ரெடியா இருக்கோம். வழக்கமான 12%-க்கு பதிலா 18% discount கொடுத்தா உடனே advance transfer பண்ணிடுவோம். இன்றே confirm பண்ணுங்க."',
+        filter: '✓ Pass: High-Volume Commercial Deal & Margin Negotiation detected. Priority set to HIGH.',
+        gemini: '"மதுரை முருகன் டிரேடர்ஸ் 500 யூனிட் பல்க் ஆர்டருக்கு 18% டிஸ்கவுண்ட் கேக்குறாங்க. ஓகே சொன்னா உடனே அட்வான்ஸ் போட்ருவாங்க."',
+        arya: 'Arya: "வணக்கம் Naga! Murugan Traders 500 units bulk deal-ku 18% discount கேக்குறாங்க. Confirm பண்ணலாமா?"',
+        naga: 'Naga: "15% discount + free shipping finalize பண்ணு, advance transfer பண்ண சொல்லு."',
+        draft: '"வணக்கம் ஐயா, உங்கள் 500 யூனிட் ஆர்டருக்கு 15% சிறப்பு தள்ளுபடியுடன் இலவச டோர் டெலிவரியை உறுதி செய்கிறோம். அட்வான்ஸ் தொகையை செலுத்தியவுடன் உடனே சரக்கு அனுப்பப்படும். நன்றி, Naga"',
+        dispatch: '✓ Auto-dispatched to Murugan Traders (+919840555444) on WhatsApp • Wholesale Deal Pipeline Updated.'
+      },
+      delivery: {
+        inbound: '"Hello Naga, When can we expect the delivery of the second batch of stock? Our team needs confirmation today."',
+        filter: '✓ Pass: Delivery Schedule inquiry detected. Forwarding to Gemini AI.',
+        gemini: '"Client project delivery date பற்றி கேட்டிருக்காங்க. அவங்களுக்கு confirmation வேணும். நீங்க delivery date confirm பண்ணணும்."',
+        arya: 'Arya: "வணக்கம் Naga! Priya கிட்ட இருந்து stock delivery பற்றி urgent confirmation கேட்டுருக்காங்க. எப்ப delivery குடுக்கலாம்?"',
+        naga: 'Naga: "Tomorrow 5 PM delivery confirm பண்ணு."',
+        draft: '"Dear Priya, Thank you for checking in on the delivery status. We are pleased to confirm that the next batch is on schedule and will be delivered by tomorrow, 5:00 PM. Our team will update you with the dispatch details shortly. Warm regards, Naga"',
+        dispatch: '✓ Sent to Client (+919840888777) on WhatsApp • Delivery Task Created.'
+      },
+      otp: {
+        inbound: '"Your One-Time Password (OTP) for secure login is 482910. Valid for 10 minutes. Do not share."',
+        filter: '🛑 Security Shield: OTP verification pattern detected. Suppressing call to protect owner focus & reduce cost.',
+        gemini: '(Gemini Skipped: Zero token consumption & zero cost)',
+        arya: '(No Phone Call Placed - Silent Shield Protection)',
+        naga: '(No Owner Action Needed - Zero Interruption)',
+        draft: '(No Outbound Reply Generated)',
+        dispatch: '✓ Discarded silently as security alert. Logged in audit registry.'
+      }
+    };
+
+    function switchScenario(key) {
+      document.querySelectorAll('.sim-chip').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const data = SCENARIOS[key];
+      if (!data) return;
+
+      document.getElementById('preview-inbound').textContent = data.inbound;
+      document.getElementById('preview-filter').textContent = data.filter;
+      document.getElementById('preview-gemini').textContent = data.gemini;
+      document.getElementById('preview-arya').textContent = data.arya;
+      document.getElementById('preview-naga').textContent = data.naga;
+      document.getElementById('preview-draft').textContent = data.draft;
+      document.getElementById('preview-dispatch').textContent = data.dispatch;
+
+      // Animate card highlights
+      document.querySelectorAll('.flow-card').forEach((card, index) => {
+        card.style.opacity = '0.5';
+        setTimeout(() => {
+          card.style.opacity = '1';
+        }, index * 80);
+      });
+    }
+  </script>
+</body>
+</html>

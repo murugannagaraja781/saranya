@@ -224,7 +224,7 @@ export const SimulateMessageDialog: React.FC<SimulateMessageDialogProps> = ({
               <strong>Should Call Naga:</strong> {result.should_call ? 'YES (High Priority)' : 'NO'}
             </Typography>
             <Typography variant="body2" sx={{ color: '#1E293B', mb: 0.5 }}>
-              <strong>Saranya Tamil Summary:</strong> "{result.analysis?.summary}"
+              <strong>Arya Tamil Summary:</strong> "{result.analysis?.summary}"
             </Typography>
             <Typography variant="body2" sx={{ color: '#1E293B', mb: 0.5 }}>
               <strong>Next Step:</strong> {result.analysis?.next_step}
@@ -248,7 +248,7 @@ export const SimulateMessageDialog: React.FC<SimulateMessageDialogProps> = ({
           disabled={loading || !message.trim()}
           startIcon={loading ? <CircularProgress size={16} color="inherit" /> : <Send size={16} />}
         >
-          {loading ? 'Processing via Saranya...' : 'Send to Pipeline'}
+          {loading ? 'Processing via Arya...' : 'Send to Pipeline'}
         </Button>
       </DialogActions>
     </Dialog>

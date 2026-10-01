@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Naga AI Assistant (Saranya) — Executive Tamil Voice Assistant</title>
+  <title>Naga AI Assistant (Arya) — Executive Tamil Voice Assistant</title>
   <meta name="description" content="Production-ready Personal AI Voice Assistant in Tamil for Naga. Monitors Gmail and WhatsApp, generates Chennai Tamil voice briefings, and places automated phone calls.">
   
   <!-- Modern Google Fonts -->
@@ -27,7 +27,7 @@
           </svg>
         </div>
         <div class="brand-text">
-          <h2>Saranya AI</h2>
+          <h2>Arya AI</h2>
           <span class="brand-sub">Naga's Assistant</span>
         </div>
       </div>
@@ -77,6 +77,16 @@
           <span>Clients</span>
         </button>
 
+        <button class="nav-item" data-page="usecases" id="nav-usecases">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          <span>Use Cases</span>
+          <span style="font-size: 10px; background: rgba(245,158,11,0.25); color: #fbbf24; padding: 2px 6px; border-radius: 4px; margin-left: auto;">6 Industries</span>
+        </button>
+
         <button class="nav-item" data-page="settings" id="nav-settings">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
@@ -85,7 +95,15 @@
           <span>Settings</span>
         </button>
 
-        <a href="admin.html" class="nav-item" id="nav-admin" style="text-decoration: none; color: inherit; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px;">
+        <a href="workflow.html" class="nav-item" id="nav-workflow" style="text-decoration: none; color: #a5b4fc; background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.25); border-radius: 8px; margin-top: 10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+          <span style="font-weight: 600;">Workflow Guide</span>
+          <span style="font-size: 10px; background: rgba(37,211,102,0.25); color: #4ade80; padding: 2px 6px; border-radius: 4px; margin-left: auto;">Live Map</span>
+        </a>
+
+        <a href="admin.html" class="nav-item" id="nav-admin" style="text-decoration: none; color: inherit; margin-top: 6px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -100,7 +118,7 @@
         <div class="status-indicator">
           <span class="status-pulse"></span>
           <div>
-            <strong id="sidebar-assistant-name">Saranya (Arya)</strong>
+            <strong id="sidebar-assistant-name">Arya AI</strong>
             <p>Chennai Tamil Voice AI</p>
           </div>
         </div>
@@ -208,7 +226,7 @@
               <span class="ring-core"></span>
             </div>
             <div>
-              <h4 id="banner-title">Saranya AI Monitoring Active</h4>
+              <h4 id="banner-title">Arya AI Monitoring Active</h4>
               <p id="banner-desc">Connected to Gmail, WhatsApp Business Cloud & Telephony Outbound Engine.</p>
             </div>
           </div>
@@ -306,7 +324,7 @@
           <div class="card-header">
             <div>
               <h3>Voice Calls & Telephony History</h3>
-              <p class="card-sub">Phone calls placed by Saranya with full dialogue script & owner instructions</p>
+              <p class="card-sub">Phone calls placed by Arya with full dialogue script & owner instructions</p>
             </div>
           </div>
 
@@ -372,13 +390,184 @@
         </div>
       </section>
 
+      <!-- VIEW: INDUSTRY USE CASES -->
+      <section class="page-section" id="section-usecases">
+        <div class="card" style="margin-bottom: 24px; background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(15,23,42,0.6) 100%); border: 1px solid rgba(99,102,241,0.25);">
+          <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <h3 style="font-size:1.25rem; font-weight:700;">🏢 Real-World Industry Business Use Cases</h3>
+              <p class="card-sub">See how Arya AI solves real customer bottlenecks with autonomous Tamil phone briefings & WhatsApp closed-loop replies.</p>
+            </div>
+            <span class="badge badge-indigo" style="font-size:12px; padding:6px 12px;">6 Live Scenarios</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px;">
+          <!-- Use Case 1: Construction & Turnkey Villa -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid #6366f1;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-weight: 700; font-size: 0.95rem; color: #818cf8; display: flex; align-items: center; gap: 8px;">
+                  🏗️ Construction & Turnkey Villas
+                </span>
+                <span class="badge badge-emerald">High Priority Call</span>
+              </div>
+              <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
+                <strong>Client:</strong> Karthik Raja (GreenScape Developers) · ₹45L Turnkey Project
+              </p>
+              <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                <span style="color: #64748b; display: block; margin-bottom: 4px;">Incoming WhatsApp:</span>
+                "வணக்கம் Naga, ₹45 Lakhs turnkey villa quotation review pannitom. Pricing ok, but 3 months-la completion mudika mudiyuma? Site visit naalaiku morning 10 AM vechikலாமா?"
+              </div>
+              <div style="background: rgba(99, 102, 241, 0.08); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(99, 102, 241, 0.2);">
+                <span style="color: #818cf8; font-weight: 600; display: block; margin-bottom: 4px;">Arya Spoken Phone Briefing:</span>
+                <span class="tamil-text">"வணக்கம் Naga! Karthik Raja 45 லட்சம் வில்லா ப்ராஜெக்ட் கொட்டேஷன் ஓகே பண்ணிட்டாரு. ஆனா 3 மாசத்துல வேலை முடியுமான்னு கேக்குறாரு. நாளைக்கு காலைல 10 மணிக்கு சைட் விசிட் வர சொல்றாரு."</span>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="loadUseCasePreset('villa')" style="width: 100%; justify-content: center; margin-top: 10px;">
+              ⚡ Test This Use Case
+            </button>
+          </div>
+
+          <!-- Use Case 2: Finance & Payment Settlement -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid #10b981;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-weight: 700; font-size: 0.95rem; color: #34d399; display: flex; align-items: center; gap: 8px;">
+                  💳 Finance & NEFT Settlement
+                </span>
+                <span class="badge badge-emerald">Payment Priority</span>
+              </div>
+              <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
+                <strong>Client:</strong> Anitha Raman (Southern Tech Corp) · ₹1,75,000 Invoice
+              </p>
+              <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                <span style="color: #64748b; display: block; margin-bottom: 4px;">Incoming WhatsApp:</span>
+                "Hi Naga, Pending invoice #INV-89 amount ₹1,75,000 NEFT transfer initiate pannitom (UTR98237192). Bank check pannitu receipt immediately send pannunga."
+              </div>
+              <div style="background: rgba(16, 185, 129, 0.08); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(16, 185, 129, 0.2);">
+                <span style="color: #34d399; font-weight: 600; display: block; margin-bottom: 4px;">Arya Spoken Phone Briefing:</span>
+                <span class="tamil-text">"Naga, Southern Tech Anitha Raman 1 லட்சத்து 75 ஆயிரம் ரூபா இன்வாய்ஸ் பேமெண்ட் NEFT பண்ணிட்டாங்க. பேங்க் செக் பண்ணிட்டு உடனே ரெசீப்ட் கேக்குறாங்க."</span>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="loadUseCasePreset('payment')" style="width: 100%; justify-content: center; margin-top: 10px;">
+              ⚡ Test This Use Case
+            </button>
+          </div>
+
+          <!-- Use Case 3: On-Site Critical Emergency -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid #ef4444;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-weight: 700; font-size: 0.95rem; color: #f87171; display: flex; align-items: center; gap: 8px;">
+                  🚨 Site Operations & Emergency
+                </span>
+                <span class="badge" style="background: rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.3);">Critical Alert</span>
+              </div>
+              <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
+                <strong>Sender:</strong> Site Engineer Vignesh · Tenkasi Concrete Pouring
+              </p>
+              <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                <span style="color: #64748b; display: block; margin-bottom: 4px;">Incoming WhatsApp:</span>
+                "URGENT NAGA: Tenkasi site-la generator failure! Concrete mixer lorry wait pannuthu, concrete pour ninnu pochu. Immediate-aa backup technician send pannunga!"
+              </div>
+              <div style="background: rgba(239, 68, 68, 0.08); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(239, 68, 68, 0.2);">
+                <span style="color: #f87171; font-weight: 600; display: block; margin-bottom: 4px;">Arya Spoken Phone Briefing:</span>
+                <span class="tamil-text">"அர்ஜென்ட் Naga! தென்காசி சைட்ல ஜெனரேட்டர் நின்னதால கான்கிரீட் ஊத்துற வேலை நின்னு போச்சு. உடனடியா பேக்கப் டெக்னீசியனை அனுப்ப சொல்றாங்க."</span>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="loadUseCasePreset('emergency')" style="width: 100%; justify-content: center; margin-top: 10px;">
+              ⚡ Test This Use Case
+            </button>
+          </div>
+
+          <!-- Use Case 4: Wholesale B2B Negotiation -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid #f59e0b;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-weight: 700; font-size: 0.95rem; color: #fbbf24; display: flex; align-items: center; gap: 8px;">
+                  🤝 B2B Bulk Order Negotiation
+                </span>
+                <span class="badge badge-amber">Bulk Deal</span>
+              </div>
+              <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
+                <strong>Client:</strong> Murugan Traders (Madurai Wholesale) · 500 Units Order
+              </p>
+              <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                <span style="color: #64748b; display: block; margin-bottom: 4px;">Incoming WhatsApp:</span>
+                "வணக்கம் Naga bro, 500 units bulk order எடுக்க ரெடியா இருக்கோம். வழக்கமான 12%-க்கு பதிலா 18% discount கொடுத்தா உடனே advance transfer பண்ணிடுவோம்."
+              </div>
+              <div style="background: rgba(245, 158, 11, 0.08); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(245, 158, 11, 0.2);">
+                <span style="color: #fbbf24; font-weight: 600; display: block; margin-bottom: 4px;">Arya Spoken Phone Briefing:</span>
+                <span class="tamil-text">"Naga, மதுரை முருகன் டிரேடர்ஸ் 500 யூனிட் பல்க் ஆர்டருக்கு 18% டிஸ்கவுண்ட் கேக்குறாங்க. ஓகே சொன்னா உடனே அட்வான்ஸ் போட்ருவாங்க."</span>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="loadUseCasePreset('wholesale')" style="width: 100%; justify-content: center; margin-top: 10px;">
+              ⚡ Test This Use Case
+            </button>
+          </div>
+
+          <!-- Use Case 5: VIP Meeting Reschedule -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid #8b5cf6;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-weight: 700; font-size: 0.95rem; color: #a78bfa; display: flex; align-items: center; gap: 8px;">
+                  📅 VIP Client Meeting Reschedule
+                </span>
+                <span class="badge badge-indigo">Schedule Priority</span>
+              </div>
+              <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
+                <strong>Client:</strong> Dr. Senthil Kumar (Apollo Hospitals) · Joint Venture
+              </p>
+              <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                <span style="color: #64748b; display: block; margin-bottom: 4px;">Incoming WhatsApp:</span>
+                "Hello Mr. Naga, Emergency surgery schedule aana nala, tomorrow 3 PM meeting-a evening 6:30 PM-ku matha mudiyuma? Chennai office-la meet pannalam."
+              </div>
+              <div style="background: rgba(139, 92, 246, 0.08); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(139, 92, 246, 0.2);">
+                <span style="color: #a78bfa; font-weight: 600; display: block; margin-bottom: 4px;">Arya Spoken Phone Briefing:</span>
+                <span class="tamil-text">"Naga, டாக்டர் செந்தில் குமார் நாளைக்கு 3 மணி மீட்டிங்க சாயங்காலம் 6:30 மணிக்கு மாத்த முடியுமான்னு கேக்குறாரு."</span>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="loadUseCasePreset('meeting')" style="width: 100%; justify-content: center; margin-top: 10px;">
+              ⚡ Test This Use Case
+            </button>
+          </div>
+
+          <!-- Use Case 6: Smart Security Shield (OTP / Spam) -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid #64748b;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-weight: 700; font-size: 0.95rem; color: #94a3b8; display: flex; align-items: center; gap: 8px;">
+                  🛡️ Smart Security & Spam Shield
+                </span>
+                <span class="badge" style="background: rgba(100,116,139,0.2); color:#94a3b8;">Silent Log (No Call)</span>
+              </div>
+              <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
+                <strong>Sender:</strong> Bank OTP / Marketing Pitch · Zero Disruption
+              </p>
+              <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                <span style="color: #64748b; display: block; margin-bottom: 4px;">Incoming OTP / Cold Pitch:</span>
+                "Your OTP for payment transaction is 849201. Do not share." / "Boost business leads by 10x! Bulk WhatsApp software at ₹999."
+              </div>
+              <div style="background: rgba(100, 116, 139, 0.08); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 12px; border: 1px solid rgba(100, 116, 139, 0.2);">
+                <span style="color: #94a3b8; font-weight: 600; display: block; margin-bottom: 4px;">Arya Autonomous Action:</span>
+                <span>Pre-filter regex identifies non-business OTP or promotional cold email. Categorized as <strong>IGNORED</strong>. No call placed to Naga. Zero distractions.</span>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-secondary" onclick="loadUseCasePreset('otp')" style="width: 100%; justify-content: center; margin-top: 10px;">
+              ⚡ Test Shield Filtering
+            </button>
+          </div>
+        </div>
+      </section>
+
       <!-- VIEW 6: SETTINGS -->
       <section class="page-section" id="section-settings">
         <div class="card settings-card">
           <div class="card-header">
             <div>
               <h3>Assistant & Telephony Configuration</h3>
-              <p class="card-sub">Manage Saranya's persona, recipient numbers, quiet hours, and API keys</p>
+              <p class="card-sub">Manage Arya's persona, recipient numbers, quiet hours, and API keys</p>
             </div>
           </div>
 
@@ -399,7 +588,7 @@
               <div class="form-group">
                 <label for="set-owner-phone">Owner Phone Number (E.164)</label>
                 <input type="text" id="set-owner-phone" value="+916382379565" required>
-                <span class="input-hint">Outbound calls from Saranya will be dialed to this number.</span>
+                <span class="input-hint">Outbound calls from Arya will be dialed to this number.</span>
               </div>
 
               <div class="form-group">
@@ -457,19 +646,23 @@
       <div class="modal-header">
         <div>
           <h3>Simulate Inbound Client Message</h3>
-          <p class="modal-sub">Test how Gemini AI and Saranya analyze messages and trigger phone calls</p>
+          <p class="modal-sub">Test how Gemini AI and Arya analyze messages and trigger phone calls</p>
         </div>
         <button class="modal-close" id="btn-close-simulate">&times;</button>
       </div>
 
       <div class="preset-selector">
-        <label>Quick Test Presets:</label>
-        <div class="preset-chips">
-          <button class="chip active" data-preset="installment">💰 Quotation & Installments (High)</button>
-          <button class="chip" data-preset="delivery">🚚 Delivery Confirmation (High)</button>
-          <button class="chip" data-preset="complaint">🚨 Urgent Blocker (High)</button>
-          <button class="chip" data-preset="otp">🔑 OTP Code (Pre-Filter Skip)</button>
-          <button class="chip" data-preset="thanks">👍 Simple "Thanks" (Pre-Filter Skip)</button>
+        <label>Quick Test Presets (Industry Scenarios):</label>
+        <div class="preset-chips" style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button class="chip active" data-preset="villa">🏗️ Villa Turnkey (₹45L)</button>
+          <button class="chip" data-preset="payment">💳 NEFT Payment (₹1.75L)</button>
+          <button class="chip" data-preset="wholesale">🤝 B2B Bulk Deal (500U)</button>
+          <button class="chip" data-preset="emergency">🚨 Site Emergency</button>
+          <button class="chip" data-preset="meeting">📅 VIP Meeting</button>
+          <button class="chip" data-preset="delivery">🚚 Stock Dispatch</button>
+          <button class="chip" data-preset="otp">🔑 Bank OTP (Skip)</button>
+          <button class="chip" data-preset="spam">📢 Sales Spam (Skip)</button>
+          <button class="chip" data-preset="thanks">👍 Thanks (Skip)</button>
         </div>
       </div>
 
@@ -540,7 +733,7 @@
               </svg>
             </button>
             <div>
-              <strong>Saranya Chennai Tamil Call Recording</strong>
+              <strong>Arya Chennai Tamil Call Recording</strong>
               <span class="audio-duration" id="audio-timer">00:42 / 00:42</span>
             </div>
           </div>
@@ -564,6 +757,23 @@
             <span class="badge badge-indigo">Naga's Recorded Spoken Instruction</span>
           </div>
           <p id="call-modal-instruction" class="tamil-text">-</p>
+        </div>
+
+        <!-- Gemini Drafted WhatsApp Reply & Dispatch Status -->
+        <div class="whatsapp-reply-box" id="call-modal-whatsapp-box" style="margin-top: 16px; background: rgba(37, 211, 102, 0.08); border: 1px solid rgba(37, 211, 102, 0.25); border-radius: 12px; padding: 16px;">
+          <div class="instruction-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span class="badge" style="background: rgba(37, 211, 102, 0.2); color: #25d366; border: 1px solid rgba(37, 211, 102, 0.3);">
+              💬 Auto WhatsApp Reply (Gemini Drafted)
+            </span>
+            <span id="call-modal-dispatch-badge" class="badge badge-indigo">✓ Dispatched</span>
+          </div>
+          <pre id="call-modal-reply-text" style="font-family: inherit; font-size: 13px; color: #f1f5f9; white-space: pre-wrap; line-height: 1.5; margin: 0;"></pre>
+          <div style="margin-top: 12px; display: flex; gap: 8px;">
+            <a id="call-modal-wa-link" href="#" target="_blank" class="btn btn-sm" style="display:inline-flex; align-items:center; gap:8px; background:#25d366; color:#0f172a; font-weight:700; text-decoration:none; padding:8px 16px; border-radius:8px; box-shadow:0 2px 8px rgba(37,211,102,0.3);">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+              <span>1-Click Send on WhatsApp (wa.me)</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>

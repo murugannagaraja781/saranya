@@ -49,6 +49,10 @@ RedirectMatch 403 ^/(\.git|server|client|shared|database|logs|php-app/database|p
     RewriteRule ^admin/?$ php-app/public/admin.html [L]
     RewriteRule ^admin\.html$ php-app/public/admin.html [L]
 
+    # Route Interactive Workflow Guide
+    RewriteRule ^workflow/?$ php-app/public/workflow.html [L]
+    RewriteRule ^workflow\.html$ php-app/public/workflow.html [L]
+
     # Route static assets (css, js) to php-app/public/
     RewriteRule ^css/(.*)$ php-app/public/css/$1 [L]
     RewriteRule ^js/(.*)$ php-app/public/js/$1 [L]

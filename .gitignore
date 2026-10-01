@@ -21,6 +21,7 @@ build/
 .cache/
 .kilo/
 coverage/
+*.zip
 
 # Logs
 *.log

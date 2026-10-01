@@ -5,11 +5,17 @@
 
 // Base API URL (Smart detection for Hostinger root subdomain or /public/ subfolder)
 const API_BASE = (() => {
+  if (window.location.protocol === 'file:') {
+    return 'backend/api';
+  }
   const path = window.location.pathname;
-  if (path.includes('/public/') || path.endsWith('/public')) {
+  if (path.includes('/php-app/public/') || path.includes('/php-app/')) {
+    return '/php-app/backend/api';
+  }
+  if (path.includes('/public/')) {
     return '../backend/api';
   }
-  return 'backend/api';
+  return '/backend/api';
 })();
 
 // Application State
@@ -26,8 +32,56 @@ const state = {
   activeCallModalData: null
 };
 
-// Preset Scenarios for Simulation Modal
+// Preset Scenarios for Simulation Modal & Use Cases
 const PRESETS = {
+  villa: {
+    channel: 'whatsapp',
+    name: 'Karthik Raja',
+    company: 'GreenScape Developers',
+    contact: '+919840123456',
+    subject: '',
+    message: 'வணக்கம் Naga, ₹45 Lakhs turnkey villa project quotation review pannitom. Pricing ok, but 3 months-la completion mudika mudiyuma? Site visit naalaiku morning 10 AM vechikலாமா? Please call & confirm.'
+  },
+  payment: {
+    channel: 'whatsapp',
+    name: 'Anitha Raman',
+    company: 'Southern Tech Corp',
+    contact: '+919840999888',
+    subject: '',
+    message: 'Hi Naga, Pending invoice #INV-89 amount ₹1,75,000 NEFT transfer initiate pannitom (UTR: UTR98237192). Bank check pannitu receipt immediately send pannunga.'
+  },
+  wholesale: {
+    channel: 'whatsapp',
+    name: 'Murugan Traders',
+    company: 'Madurai Wholesale Hub',
+    contact: '+919840555444',
+    subject: '',
+    message: 'வணக்கம் Naga bro, 500 units bulk order எடுக்க ரெடியா இருக்கோம். வழக்கமான 12%-க்கு பதிலா 18% discount கொடுத்தா உடனே advance transfer பண்ணிடுவோம். இன்றே confirm பண்ணுங்க.'
+  },
+  emergency: {
+    channel: 'whatsapp',
+    name: 'Site Engineer Vignesh',
+    company: 'Tenkasi Project Site',
+    contact: '+919840777666',
+    subject: '',
+    message: 'URGENT NAGA: Tenkasi site-la generator failure! Concrete mixer lorry wait pannuthu, concrete pour ninnu pochu. Immediate-aa backup technician send pannunga!'
+  },
+  meeting: {
+    channel: 'whatsapp',
+    name: 'Dr. Senthil Kumar',
+    company: 'Apollo Medical Group',
+    contact: '+919840333222',
+    subject: '',
+    message: 'Hello Mr. Naga, Emergency surgery schedule aana nala, tomorrow 3 PM meeting-a evening 6:30 PM-ku matha mudiyuma? Chennai office-la meet pannalam.'
+  },
+  delivery: {
+    channel: 'whatsapp',
+    name: 'Priya Sundaram',
+    company: 'Apex Logistics',
+    contact: '+919840888777',
+    subject: '',
+    message: 'Naga sir, Coimbatore godown-la irunthu material lorry dispatch aayiduchu. Vehicle TN-38-BZ-4419. Tomorrow morning 9 AM reach aagidum. Unloading team ready-aa iruka sollunga.'
+  },
   installment: {
     channel: 'email',
     name: 'Ramesh Kumar',
@@ -36,29 +90,29 @@ const PRESETS = {
     subject: 'Quotation Approved - Payment Terms Discussion',
     message: 'Dear Naga, We have reviewed the quotation you sent yesterday. We are happy with the pricing and approve it. However, we request to make the payment in 2 installments (50% advance, 50% on completion). Please confirm by tomorrow.'
   },
-  delivery: {
-    channel: 'whatsapp',
-    name: 'Priya Sundaram',
-    company: 'Apex Retail Solutions',
-    contact: '+919840999888',
-    subject: '',
-    message: 'Hello Naga, When can we expect the delivery of the second batch of stock? Our team needs confirmation today.'
-  },
   complaint: {
     channel: 'whatsapp',
     name: 'Suresh Babu',
     company: 'Modern Logistics',
     contact: '+919840777666',
     subject: '',
-    message: 'Urgent! The tracking dashboard is not working for our drivers. Critical issue please check immediately.'
+    message: 'Urgent Naga! The tracking dashboard is not working for our drivers. Critical issue please check immediately.'
   },
   otp: {
     channel: 'email',
-    name: 'Automated Service',
+    name: 'HDFC Bank Alert',
     company: 'Security Auth',
-    contact: 'no-reply@auth.com',
+    contact: 'no-reply@hdfcbank.com',
     subject: 'Your One-Time Password (OTP)',
-    message: 'Your verification code is 482910. Do not share this code with anyone.'
+    message: 'Your verification OTP for transaction of INR 5,000 at MERCHANT is 482910. Valid for 10 mins. Do not share with anyone.'
+  },
+  spam: {
+    channel: 'email',
+    name: 'FastGrow Leads',
+    company: 'Digital Marketers',
+    contact: 'promo@fastgrowleads.xyz',
+    subject: 'Boost your business leads 10x with WhatsApp bulk software',
+    message: 'Dear Business Owner, Get verified WhatsApp marketing software starting at just ₹999/month. Limited time offer! Click here to activate your free trial today.'
   },
   thanks: {
     channel: 'whatsapp',
@@ -66,7 +120,7 @@ const PRESETS = {
     company: '',
     contact: '+919840111222',
     subject: '',
-    message: 'Okay, noted. Thanks!'
+    message: 'Okay bro, noted. Thanks!'
   }
 };
 
@@ -124,6 +178,7 @@ function navigateTo(pageId) {
     calls: { title: 'Voice Calls & Transcripts', sub: 'Phone Briefings to Naga & Recorded Instructions' },
     tasks: { title: 'Action Tasks', sub: 'Automated Tasks Generated from Voice Commitments' },
     clients: { title: 'Client Directory', sub: 'Client Profiles, History & Priority Notes' },
+    usecases: { title: 'Business Use Cases', sub: 'Real-world Industry Applications Powered by Arya AI' },
     settings: { title: 'System Settings', sub: 'Persona, Phone Numbers, Quiet Hours & Integrations' }
   };
 
@@ -139,6 +194,25 @@ function navigateTo(pageId) {
   else if (pageId === 'clients') loadClients();
   else if (pageId === 'settings') loadSettings();
 }
+
+window.loadUseCasePreset = function(presetKey) {
+  const modal = document.getElementById('modal-simulate');
+  if (modal) {
+    modal.classList.add('show');
+    document.querySelectorAll('.preset-chips .chip').forEach(c => {
+      c.classList.toggle('active', c.dataset.preset === presetKey);
+    });
+    const p = PRESETS[presetKey];
+    if (p) {
+      document.getElementById('sim-channel').value = p.channel;
+      document.getElementById('sim-client-name').value = p.name;
+      document.getElementById('sim-company').value = p.company;
+      document.getElementById('sim-contact').value = p.contact;
+      document.getElementById('sim-subject').value = p.subject;
+      document.getElementById('sim-message').value = p.message;
+    }
+  }
+};
 
 // ============================================================================
 // Data Fetching & Polling
@@ -577,6 +651,12 @@ function initSimulationModal() {
   // Submit test simulation
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    if (window.location.protocol === 'file:') {
+      showToast('Simulation requires a web server. Open via https://ai.tenkasidreams.com or local PHP server (not file://)', 'error');
+      return;
+    }
+
     const submitBtn = document.getElementById('btn-submit-simulate');
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span>Processing with Gemini AI...</span>';
@@ -603,7 +683,7 @@ function initSimulationModal() {
       modal.classList.remove('show');
 
       if (result.callTriggered) {
-        showToast(`📞 Voice Call placed to Naga! Tamil Briefing dispatched.`, 'success');
+        showToast(`📞 Voice Call placed! Reply auto-drafted & dispatched to WhatsApp.`, 'success');
         // Open Call dialogue modal automatically!
         if (result.call) {
           viewCallDetail(
@@ -611,7 +691,9 @@ function initSimulationModal() {
             payload.clientName,
             result.analysis?.summary || 'Chennai Tamil Voice Briefing',
             result.call.owner_instruction || '',
-            result.call.transcript || ''
+            result.call.transcript || '',
+            result.drafted_reply || '',
+            result.dispatch?.provider ? `✓ Dispatched via ${result.dispatch.provider}` : '✓ Dispatched to WhatsApp'
           );
         }
       } else {
@@ -668,7 +750,7 @@ function initAudioPlayer() {
   });
 }
 
-function viewCallDetail(callId, clientName, summary, instruction, transcript) {
+function viewCallDetail(callId, clientName, summary, instruction, transcript, draftedReply = '', dispatchBadge = '✓ Dispatched to WhatsApp') {
   const modal = document.getElementById('modal-call-detail');
   document.getElementById('call-modal-title').textContent = `Call Briefing: ${clientName}`;
   document.getElementById('call-modal-sub').textContent = `Phone Dialogue & Naga's Instruction`;
@@ -677,6 +759,29 @@ function viewCallDetail(callId, clientName, summary, instruction, transcript) {
 
   document.getElementById('call-modal-transcript').textContent = transcript || fallbackTranscript;
   document.getElementById('call-modal-instruction').textContent = instruction ? `"${instruction}"` : 'No spoken instruction captured.';
+
+  const whatsappBox = document.getElementById('call-modal-whatsapp-box');
+  const replyTextEl = document.getElementById('call-modal-reply-text');
+  const badgeEl = document.getElementById('call-modal-dispatch-badge');
+
+  if (whatsappBox && replyTextEl) {
+    if (draftedReply) {
+      whatsappBox.style.display = 'block';
+      replyTextEl.textContent = draftedReply;
+      if (badgeEl) badgeEl.textContent = dispatchBadge;
+
+      const waLinkEl = document.getElementById('call-modal-wa-link');
+      if (waLinkEl) {
+        const callObj = (state.calls || []).find(c => c.id === callId || c.client_name === clientName);
+        const clientObj = (state.clients || []).find(c => c.name === clientName);
+        const rawPhone = clientObj?.phone || clientObj?.whatsapp || callObj?.recipient_phone || '';
+        const cleanPhone = rawPhone.replace(/[^0-9]/g, '');
+        waLinkEl.href = cleanPhone ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(draftedReply)}` : `https://wa.me/?text=${encodeURIComponent(draftedReply)}`;
+      }
+    } else {
+      whatsappBox.style.display = 'none';
+    }
+  }
 
   modal.classList.add('show');
 }
