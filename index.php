@@ -18,8 +18,20 @@ if (strpos($path, '/backend/') === 0 || strpos($path, '/api/') === 0 || strpos($
     }
 }
 
-// 2. Serve the Executive Dashboard HTML5 Frontend
-$dashboardFile = __DIR__ . '/php-app/public/index.html';
+// 2. Route Super Admin Dashboard
+if ($path === '/admin' || $path === '/admin/' || $path === '/admin.html') {
+    $adminFile = file_exists(__DIR__ . '/admin.html') ? __DIR__ . '/admin.html' : __DIR__ . '/php-app/public/admin.html';
+    if (file_exists($adminFile)) {
+        header('Content-Type: text/html; charset=UTF-8');
+        header('X-Frame-Options: SAMEORIGIN');
+        header('X-Content-Type-Options: nosniff');
+        readfile($adminFile);
+        exit;
+    }
+}
+
+// 3. Serve the Executive Dashboard HTML5 Frontend
+$dashboardFile = file_exists(__DIR__ . '/public/index.html') ? __DIR__ . '/public/index.html' : __DIR__ . '/php-app/public/index.html';
 if (file_exists($dashboardFile)) {
     header('Content-Type: text/html; charset=UTF-8');
     header('X-Frame-Options: SAMEORIGIN');

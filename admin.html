@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Admin Control Center — Saranya AI</title>
+  <meta name="description" content="Super Admin Environment Configuration Dashboard for Saranya AI">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Super Admin Specific Styling */
+    .admin-auth-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.15) 0%, rgba(15, 23, 42, 1) 70%);
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 40px 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(99, 102, 241, 0.2);
+      text-align: center;
+    }
+
+    .auth-icon-circle {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    }
+
+    .auth-card h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 8px;
+    }
+
+    .auth-card p {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 28px;
+    }
+
+    .pin-input-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .pin-input {
+      width: 100%;
+      height: 52px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      color: #f8fafc;
+      font-size: 20px;
+      letter-spacing: 4px;
+      text-align: center;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .pin-input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+
+    /* Admin Workspace */
+    .admin-workspace {
+      display: none;
+      min-height: 100vh;
+      background: #0b0f19;
+      color: #f1f5f9;
+      padding-bottom: 80px;
+    }
+
+    .admin-navbar {
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .admin-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .admin-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-content-container {
+      max-width: 1200px;
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+
+    .admin-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 28px;
+    }
+
+    .admin-tab {
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #94a3b8;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .admin-tab:hover {
+      color: #f8fafc;
+    }
+
+    .admin-tab.active {
+      color: #818cf8;
+      border-bottom-color: #818cf8;
+    }
+
+    .config-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .config-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .config-card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 17px;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-field .field-desc {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 400;
+    }
+
+    .input-with-action {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .admin-input {
+      width: 100%;
+      height: 42px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 0 14px;
+      color: #f8fafc;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .admin-input.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+
+    .admin-input:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+
+    .eye-btn {
+      position: absolute;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+    }
+
+    .eye-btn:hover {
+      color: #f8fafc;
+    }
+
+    /* Floating Save Bar */
+    .save-bar {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.3);
+      backdrop-filter: blur(16px);
+      padding: 12px 24px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 1000;
+    }
+
+    .raw-textarea {
+      width: 100%;
+      min-height: 480px;
+      background: #030712;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+      white-space: pre;
+    }
+
+    .raw-textarea:focus {
+      border-color: #6366f1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Password Verification Screen -->
+  <div class="admin-auth-container" id="auth-screen">
+    <div class="auth-card">
+      <div class="auth-icon-circle">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h2>Super Admin Access</h2>
+      <p>Configure production <code>.env</code> file & credentials</p>
+
+      <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+        <div class="pin-input-group">
+          <input type="password" id="admin-password-input" class="pin-input" placeholder="Admin Password" autofocus autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; height: 48px; font-weight: 600;" id="login-submit-btn">
+          Unlock Control Center
+        </button>
+      </form>
+      <div style="margin-top: 20px;">
+        <a href="index.html" style="color: #64748b; font-size: 13px; text-decoration: none;">← Back to Executive Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Super Admin Workspace -->
+  <div class="admin-workspace" id="admin-workspace">
+    <!-- Navbar -->
+    <header class="admin-navbar">
+      <div class="admin-nav-left">
+        <div class="brand-logo" style="width: 38px; height: 38px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="22"></line>
+          </svg>
+        </div>
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h3 style="margin: 0; font-size: 17px; font-weight: 700;">Super Admin Control Center</h3>
+            <span class="admin-badge">SUPER ADMIN</span>
+          </div>
+          <span style="font-size: 12px; color: #94a3b8;" id="env-file-badge">Target: .env file</span>
+        </div>
+      </div>
+
+      <div class="admin-nav-actions">
+        <button class="btn btn-secondary" onclick="testDatabaseConnection()" id="btn-test-db">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          </svg>
+          Test DB Connection
+        </button>
+        <a href="index.html" class="btn btn-secondary">
+          Dashboard ↗
+        </a>
+        <button class="btn btn-outline" onclick="logoutAdmin()">
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <div class="admin-content-container">
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="visual" onclick="switchAdminTab('visual')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+            <path d="M9 3v18"></path>
+            <path d="m14 9 3 3-3 3"></path>
+          </svg>
+          Structured Form Editor
+        </button>
+        <button class="admin-tab" data-tab="raw" onclick="switchAdminTab('raw')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          Raw .env Code Editor
+        </button>
+      </div>
+
+      <!-- Tab 1: Visual Form Editor -->
+      <div id="tab-visual" class="tab-pane">
+        
+        <!-- 1. Database Connection -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <div class="config-card-title">
+              <span style="font-size: 20px;">🗄️</span>
+              MySQL Database Configuration
+            </div>
+            <span class="badge badge-indigo">Hostinger MySQL</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label>DB_HOST <span class="field-desc">(Usually localhost on Hostinger)</span></label>
+              <input type="text" id="env_DB_HOST" class="admin-input mono" placeholder="localhost">
+            </div>
+            <div class="form-field">
+              <label>DB_PORT</label>
+              <input type="text" id="env_DB_PORT" class="admin-input mono" placeholder="3306">
+            </div>
+            <div class="form-field">
+              <label>DB_NAME <span class="field-desc">(Eg: u123456_saranya_db)</span></label>
+              <input type="text" id="env_DB_NAME" class="admin-input mono" placeholder="u123456789_saranya_db">
+            </div>
+            <div class="form-field">
+              <label>DB_USER <span class="field-desc">(Eg: u123456_user)</span></label>
+              <input type="text" id="env_DB_USER" class="admin-input mono" placeholder="u123456789_saranya_user">
+            </div>
+            <div class="form-field" style="grid-column: 1 / -1;">
+              <label>DB_PASSWORD</label>
+              <div class="input-with-action">
+                <input type="password" id="env_DB_PASSWORD" class="admin-input mono" placeholder="Your MySQL database password">
+                <button type="button" class="eye-btn" onclick="togglePasswordVisibility('env_DB_PASSWORD')">👁️</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. AI & Gemini Configuration -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <div class="config-card-title">
+              <span style="font-size: 20px;">🤖</span>
+              Google Gemini AI API
+            </div>
+            <span class="badge badge-teal">Tamil Briefings</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-field" style="grid-column: 1 / -1;">
+              <label>GEMINI_API_KEY <span class="field-desc">(Google AI Studio API Key)</span></label>
+              <div class="input-with-action">
+                <input type="password" id="env_GEMINI_API_KEY" class="admin-input mono" placeholder="AIzaSy...">
+                <button type="button" class="eye-btn" onclick="togglePasswordVisibility('env_GEMINI_API_KEY')">👁️</button>
+              </div>
+            </div>
+            <div class="form-field">
+              <label>GEMINI_MODEL</label>
+              <input type="text" id="env_GEMINI_MODEL" class="admin-input mono" placeholder="gemini-1.5-flash">
+            </div>
+            <div class="form-field">
+              <label>MOCK_MODE <span class="field-desc">(false = Live AI / Telephony)</span></label>
+              <select id="env_MOCK_MODE" class="admin-input">
+                <option value="false">false (Live Production Mode)</option>
+                <option value="true">true (Deterministic Mock Mode)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Owner & AI Persona -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <div class="config-card-title">
+              <span style="font-size: 20px;">👤</span>
+              Owner Identity & Voice Persona
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label>OWNER_NAME</label>
+              <input type="text" id="env_OWNER_NAME" class="admin-input" placeholder="Naga">
+            </div>
+            <div class="form-field">
+              <label>OWNER_PHONE <span class="field-desc">(With country code)</span></label>
+              <input type="text" id="env_OWNER_PHONE" class="admin-input mono" placeholder="+916382379565">
+            </div>
+            <div class="form-field">
+              <label>OWNER_EMAIL</label>
+              <input type="email" id="env_OWNER_EMAIL" class="admin-input" placeholder="naga@tenkasidreams.com">
+            </div>
+            <div class="form-field">
+              <label>AI_ASSISTANT_NAME</label>
+              <input type="text" id="env_AI_ASSISTANT_NAME" class="admin-input" placeholder="Arya">
+            </div>
+            <div class="form-field">
+              <label>AI_LANGUAGE</label>
+              <input type="text" id="env_AI_LANGUAGE" class="admin-input" placeholder="Tamil">
+            </div>
+            <div class="form-field">
+              <label>AI_VOICE_STYLE</label>
+              <input type="text" id="env_AI_VOICE_STYLE" class="admin-input" placeholder="Natural Chennai conversational Tamil">
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Quiet Hours -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <div class="config-card-title">
+              <span style="font-size: 20px;">🌙</span>
+              Quiet Hours (DND Filter)
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label>QUIET_HOURS_START <span class="field-desc">(24hr format)</span></label>
+              <input type="text" id="env_QUIET_HOURS_START" class="admin-input mono" placeholder="22:00">
+            </div>
+            <div class="form-field">
+              <label>QUIET_HOURS_END <span class="field-desc">(24hr format)</span></label>
+              <input type="text" id="env_QUIET_HOURS_END" class="admin-input mono" placeholder="07:00">
+            </div>
+            <div class="form-field">
+              <label>ALLOW_HIGH_PRIORITY_IN_QUIET_HOURS</label>
+              <select id="env_ALLOW_HIGH_PRIORITY_IN_QUIET_HOURS" class="admin-input">
+                <option value="true">true (Urgent calls still break through)</option>
+                <option value="false">false (Mute all calls in quiet hours)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Automation, Webhooks & Domain -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <div class="config-card-title">
+              <span style="font-size: 20px;">⚡</span>
+              Domain, Webhooks & N8N Automation
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-field" style="grid-column: 1 / -1;">
+              <label>APP_URL / CORS_ORIGIN</label>
+              <input type="text" id="env_APP_URL" class="admin-input mono" placeholder="https://ai.tenkasidreams.com">
+            </div>
+            <div class="form-field">
+              <label>N8N_WEBHOOK_SECRET</label>
+              <div class="input-with-action">
+                <input type="password" id="env_N8N_WEBHOOK_SECRET" class="admin-input mono" placeholder="Secret Token">
+                <button type="button" class="eye-btn" onclick="togglePasswordVisibility('env_N8N_WEBHOOK_SECRET')">👁️</button>
+              </div>
+            </div>
+            <div class="form-field">
+              <label>WHATSAPP_WEBHOOK_VERIFY_TOKEN</label>
+              <div class="input-with-action">
+                <input type="password" id="env_WHATSAPP_WEBHOOK_VERIFY_TOKEN" class="admin-input mono" placeholder="Verify Token">
+                <button type="button" class="eye-btn" onclick="togglePasswordVisibility('env_WHATSAPP_WEBHOOK_VERIFY_TOKEN')">👁️</button>
+              </div>
+            </div>
+            <div class="form-field" style="grid-column: 1 / -1;">
+              <label>N8N_WEBHOOK_URL</label>
+              <input type="text" id="env_N8N_WEBHOOK_URL" class="admin-input mono" placeholder="https://ai.tenkasidreams.com/webhook/client-message">
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Super Admin Security Password -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <div class="config-card-title">
+              <span style="font-size: 20px;">🔐</span>
+              Super Admin Password
+            </div>
+            <span class="badge badge-amber">Dashboard Protection</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-field" style="grid-column: 1 / -1;">
+              <label>ADMIN_PASSWORD <span class="field-desc">(Default: 1369)</span></label>
+              <div class="input-with-action">
+                <input type="password" id="env_ADMIN_PASSWORD" class="admin-input mono" placeholder="1369">
+                <button type="button" class="eye-btn" onclick="togglePasswordVisibility('env_ADMIN_PASSWORD')">👁️</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Tab 2: Raw .env Editor -->
+      <div id="tab-raw" class="tab-pane" style="display: none;">
+        <div class="config-card">
+          <div class="config-card-header">
+            <div class="config-card-title">
+              <span style="font-size: 20px;">📝</span>
+              Direct .env File Editor
+            </div>
+            <button class="btn btn-secondary" onclick="loadEnvData()">Reload from Disk</button>
+          </div>
+          <textarea id="raw-env-textarea" class="raw-textarea" spellcheck="false" placeholder="# Environment variables..."></textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Floating Action Bar -->
+    <div class="save-bar">
+      <div>
+        <div style="font-size: 14px; font-weight: 700; color: #f8fafc;">Environment Configuration</div>
+        <div style="font-size: 12px; color: #94a3b8;">Automatic backup created on save</div>
+      </div>
+      <button class="btn btn-primary" onclick="saveEnvConfiguration()" id="btn-save-env" style="height: 42px; padding: 0 24px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+          <polyline points="17 21 17 13 7 13 7 21"></polyline>
+          <polyline points="7 3 7 8 15 8"></polyline>
+        </svg>
+        Save Changes to .env
+      </button>
+    </div>
+  </div>
+
+  <!-- Dynamic Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script>
+    let adminToken = sessionStorage.getItem('admin_auth_token') || '';
+    let currentEnvData = {};
+
+    // Auto-detect API Base
+    const API_ADMIN = (() => {
+      const path = window.location.pathname;
+      if (path.includes('/public/') || path.endsWith('/public')) {
+        return '../backend/api/admin.php';
+      }
+      return 'backend/api/admin.php';
+    })();
+
+    // Check if already authenticated in this session
+    window.addEventListener('DOMContentLoaded', () => {
+      if (adminToken) {
+        showWorkspace();
+        loadEnvData();
+      }
+    });
+
+    // 1. Admin Login
+    async function handleAdminLogin(e) {
+      e.preventDefault();
+      const password = document.getElementById('admin-password-input').value.trim();
+      const btn = document.getElementById('login-submit-btn');
+
+      btn.disabled = true;
+      btn.innerText = 'Verifying...';
+
+      try {
+        const res = await fetch(`${API_ADMIN}?action=login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          adminToken = data.token;
+          sessionStorage.setItem('admin_auth_token', adminToken);
+          showToast('Super Admin authenticated successfully!', 'success');
+          showWorkspace();
+          loadEnvData();
+        } else {
+          showToast(data.error || 'Invalid Admin Password', 'error');
+        }
+      } catch (err) {
+        showToast('Connection error connecting to admin API', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Unlock Control Center';
+      }
+    }
+
+    function showWorkspace() {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('admin-workspace').style.display = 'block';
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('admin_auth_token');
+      adminToken = '';
+      window.location.reload();
+    }
+
+    // 2. Load .env Data
+    async function loadEnvData() {
+      try {
+        const res = await fetch(`${API_ADMIN}?action=get_env`, {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          currentEnvData = data.variables || {};
+          document.getElementById('env-file-badge').innerText = `Target: ${data.env_path}`;
+          document.getElementById('raw-env-textarea').value = data.raw_content || '';
+
+          // Populate structured inputs
+          populateFormFields(currentEnvData);
+        } else if (res.status === 401) {
+          logoutAdmin();
+        }
+      } catch (err) {
+        showToast('Failed to load .env configuration', 'error');
+      }
+    }
+
+    function populateFormFields(vars) {
+      const fieldIds = [
+        'DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASSWORD',
+        'GEMINI_API_KEY', 'GEMINI_MODEL', 'MOCK_MODE',
+        'OWNER_NAME', 'OWNER_PHONE', 'OWNER_EMAIL',
+        'AI_ASSISTANT_NAME', 'AI_LANGUAGE', 'AI_VOICE_STYLE',
+        'QUIET_HOURS_START', 'QUIET_HOURS_END', 'ALLOW_HIGH_PRIORITY_IN_QUIET_HOURS',
+        'APP_URL', 'N8N_WEBHOOK_SECRET', 'WHATSAPP_WEBHOOK_VERIFY_TOKEN', 'N8N_WEBHOOK_URL',
+        'ADMIN_PASSWORD'
+      ];
+
+      fieldIds.forEach(key => {
+        const el = document.getElementById(`env_${key}`);
+        if (el) {
+          el.value = vars[key] !== undefined ? vars[key] : '';
+        }
+      });
+    }
+
+    // 3. Save .env Configuration
+    async function saveEnvConfiguration() {
+      const btn = document.getElementById('btn-save-env');
+      btn.disabled = true;
+      btn.innerHTML = 'Saving to .env...';
+
+      const activeTab = document.querySelector('.admin-tab.active').getAttribute('data-tab');
+      let payload = {};
+
+      if (activeTab === 'raw') {
+        payload = {
+          raw_content: document.getElementById('raw-env-textarea').value
+        };
+      } else {
+        // Collect from form
+        const variables = { ...currentEnvData };
+        const formInputs = document.querySelectorAll('[id^="env_"]');
+        formInputs.forEach(input => {
+          const key = input.id.replace('env_', '');
+          variables[key] = input.value.trim();
+        });
+        payload = { variables };
+      }
+
+      try {
+        const res = await fetch(`${API_ADMIN}?action=save_env`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showToast('✅ .env configuration updated successfully!', 'success');
+          loadEnvData();
+        } else {
+          showToast(data.error || 'Failed to save .env', 'error');
+        }
+      } catch (err) {
+        showToast('Error saving .env configuration', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          Save Changes to .env
+        `;
+      }
+    }
+
+    // 4. Test DB Connection
+    async function testDatabaseConnection() {
+      const btn = document.getElementById('btn-test-db');
+      btn.disabled = true;
+      btn.innerText = 'Connecting...';
+
+      const payload = {
+        DB_HOST: document.getElementById('env_DB_HOST')?.value || '',
+        DB_PORT: document.getElementById('env_DB_PORT')?.value || '',
+        DB_NAME: document.getElementById('env_DB_NAME')?.value || '',
+        DB_USER: document.getElementById('env_DB_USER')?.value || '',
+        DB_PASSWORD: document.getElementById('env_DB_PASSWORD')?.value || ''
+      };
+
+      try {
+        const res = await fetch(`${API_ADMIN}?action=test_db`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showToast(`✅ Database Connected! Tables: ${data.table_count}`, 'success');
+        } else {
+          showToast(`❌ ${data.error || 'DB Connection Failed'}`, 'error');
+        }
+      } catch (err) {
+        showToast('Could not reach DB test endpoint', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          </svg>
+          Test DB Connection
+        `;
+      }
+    }
+
+    // Tab Switcher
+    function switchAdminTab(tabName) {
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+      document.getElementById(`tab-${tabName}`).style.display = 'block';
+    }
+
+    function togglePasswordVisibility(fieldId) {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.type = field.type === 'password' ? 'text' : 'password';
+      }
+    }
+
+    // Dynamic Toast
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerText = message;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
